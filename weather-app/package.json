@@ -1,0 +1,24 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NariRoh/weather-app-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NariRoh/weather-app-nodejs/issues"
+  },
+  "homepage": "https://github.com/NariRoh/weather-app-nodejs#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "request": "^2.87.0",
+    "yargs": "^12.0.1"
+  }
+}
