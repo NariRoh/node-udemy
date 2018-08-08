@@ -2,6 +2,11 @@ const express = require("express");
 
 var app = express();
 
+// To add a middleware: app.use takes the middleware function you want to use
+  // express.static takes the absolute path to the folder you want to serve up
+  // __dirname stores the path to your projects directory
+app.use(express.static(__dirname + '/public'));
+
 // HTTP get request: url, function to run
 app.get("/", (req, res) => {
 	// res.send("<h1>Hello Express!</h1>");
@@ -22,4 +27,6 @@ app.get("/bad", (req, res) => {
 	});
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('Server is up on port 3000');
+});
