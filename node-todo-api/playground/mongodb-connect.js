@@ -1,5 +1,8 @@
-const MongoClient = require("mongodb").MongoClient;
+// const MongoClient = require("mongodb").MongoClient;
+const { MongoClient, ObjectID } = require("mongodb");
 
+// var obj = new ObjectID();
+// console.log(obj);
 /*
   * To start database server
     mongo/bin >> ./mongod --dbpath ~/mongo-data
@@ -45,16 +48,16 @@ MongoClient.connect(
     //   console.log(JSON.stringify(result.ops, undefined, 2));
     // });
 
-    db.collection('Users').insertOne({
-      name: 'Nari',
-      age: 25,
-      location: 'Mexico city'
-    }, (err, result) => {
-      if (err) {
-        return console.log("Unable to insert todo", err);
-      }
-      console.log(result.ops);
-    })
+    // db.collection('Users').insertOne({
+    //   name: 'Nari',
+    //   age: 25,
+    //   location: 'Mexico city'
+    // }, (err, result) => {
+    //   if (err) {
+    //     return console.log("Unable to insert todo", err);
+    //   }
+    //   console.log(result.ops[0]._id.getTimestamp());
+    // });
 
     client.close();
 	}
