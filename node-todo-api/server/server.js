@@ -32,7 +32,7 @@ app.post("/todos", (req, res) => {
 app.get("/todos", (req, res) => {
     Todo.find().then(
         todos => {
-            res.send({ todos });
+            res.send({todos});
         },
         err => {
             res.status(400).send(err);
@@ -54,7 +54,7 @@ app.get("/todos/:id", (req, res) => {
             if (!todo) {
                 return res.status(404).send();
             }
-            res.send({ todo });
+            res.send({todo});
         })
         .catch(err => {
             res.status(400).send();
@@ -79,7 +79,7 @@ app.delete('/todos/:id', (req, res) => {
                 return res.status(404).send();
             }
             // if doc, send doc back
-            res.send(todo)
+            res.send({todo})
         })
         // error
             // 400 with empty body with 200
