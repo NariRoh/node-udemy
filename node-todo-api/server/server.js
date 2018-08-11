@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const express = require("express");
 const bodyParser = require("body-parser");
 // 👆 is going to take the JSON and convert it into an object attaching it onto the request object
@@ -85,6 +86,31 @@ app.delete('/todos/:id', (req, res) => {
             // 400 with empty body with 200
         .catch(err => res.send(400).send());
 })
+
+// Update
+app.patch('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    // pick takes an object and an array of the properties you want
+    const body = _.pick(req.body, ['text', 'completed']);
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    if (_.isBoolean(body.completed) && body.completed) {
+        body.completedAt = new Date().getTime();
+    } else {
+        body.completed = false;
+        body.completedAt = null;
+    }
+
+    Todo.findByIdAndUpdate(id, { $set: body }, { new: true }).then(todo => {
+        if (!todo) {
+            return res.status(400).send();
+        }
+        res.send({ todo });
+    }).catch(err => res.status(400).send());
+});
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
