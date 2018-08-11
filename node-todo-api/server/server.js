@@ -1,13 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 // 👆 is going to take the JSON and convert it into an object attaching it onto the request object
-const {ObjectID} = require('mongodb');
+const { ObjectID } = require("mongodb");
 
 const { mongoose } = require("./db/mongoose");
 const { Todo } = require("./models/todo");
 const { User } = require("./models/user");
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -39,24 +40,26 @@ app.get("/todos", (req, res) => {
 });
 
 // GET /todos/id
-app.get('/todos/:id', (req, res) => {
-  const id = req.params.id;
+app.get("/todos/:id", (req, res) => {
+	const id = req.params.id;
 
-  // valid id using isValid
-  if (!ObjectID.isValid(id)) {
-    return res.status(404).send(); // send with no data
-  }
+	// valid id using isValid
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send(); // send with no data
+	}
 
-  Todo.findById(id).then((todo) => {
-    if (!todo) {
-      return res.status(404).send(); 
-    }
+	Todo.findById(id)
+		.then(todo => {
+			if (!todo) {
+				return res.status(404).send();
+			}
 
-    res.send({ todo });
-  }).catch((err) => {
-    res.status(400).send();
-  })
-})
+			res.send({ todo });
+		})
+		.catch(err => {
+			res.status(400).send();
+		});
+});
 
 app.listen(3000, () => {
 	console.log("Started on port 3000");
