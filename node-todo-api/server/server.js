@@ -1,4 +1,4 @@
-require('config/config.js');
+require('./config/config.js');
 
 const _ = require('lodash');
 const express = require("express");
@@ -16,6 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+// POST /todos
 app.post("/todos", (req, res) => {
     // console.log(req.body);
     const todo = new Todo({
@@ -32,6 +33,7 @@ app.post("/todos", (req, res) => {
     );
 });
 
+// GET /todos
 app.get("/todos", (req, res) => {
     Todo.find().then(
         todos => {
@@ -89,7 +91,7 @@ app.delete('/todos/:id', (req, res) => {
         .catch(err => res.send(400).send());
 })
 
-// Update
+// Update /todos
 app.patch('/todos/:id', (req, res) => {
     const id = req.params.id;
     // pick takes an object and an array of the properties you want
@@ -112,6 +114,16 @@ app.patch('/todos/:id', (req, res) => {
         }
         res.send({ todo });
     }).catch(err => res.status(400).send());
+});
+
+// POST /users
+app.post('/users', (req, res) => {
+    const body = _.pick(req.body, ['email', 'password']);
+    const user = new User(body);
+
+    user.save()
+        .then(user => res.send(user))
+        .catch(err => res.status(400).send(err));
 });
 
 app.listen(port, () => {
