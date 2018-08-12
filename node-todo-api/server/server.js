@@ -9,10 +9,10 @@ const { ObjectID } = require("mongodb");
 const { mongoose } = require("./db/mongoose");
 const { Todo } = require("./models/todo");
 const { User } = require("./models/user");
+const { authenticate } = require("./middleware/authenticate");
 
 const app = express();
 const port = process.env.PORT || 3000;
-
 
 app.use(bodyParser.json());
 
@@ -128,6 +128,22 @@ app.post('/users', (req, res) => {
         }).catch(err => {
             res.status(400).send(err)
         });
+});
+
+// GET /users/
+
+app.get('/users/me', authenticate, (req, res) => {
+    res.send(req.user);
+    // const token = req.header('x-auth');
+
+    // User.findByToken(token).then(user => {
+    //     if (!user) {
+    //         return Promise.reject();
+    //     }
+    //     res.send(user);
+    // }).catch(err => {
+    //     res.status(401).send();
+    // }); 
 });
 
 app.listen(port, () => {
