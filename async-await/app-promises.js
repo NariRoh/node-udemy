@@ -63,10 +63,50 @@ const getStatus = userId => {
     });
 };
 
-getStatus(1)
-  .then(status => {
-    console.log(status);
-  })
-  .catch(err => {
+/* async await
+    regular func return a string 'Mike'
+    async return a Promise : Promise { 'Mike' }
+
+    const getStatusAlt = async userId =>  {
+        throw new Error('This is an error');
+        return 'Mike';
+    };
+
+    // same as,
+
+    () => {
+        return new Promise((resolve, reject) => {
+            reject('This is an error)
+            resolve('Mike');
+        })
+    }
+*/
+const getStatusAlt = async userId =>  {
+    const user = await getUser(userId);
+    const grades = await getGrades(user.schoolId);
+    let average = 0;
+
+    if (grades.length > 0) {
+        average = grades
+          .map(grade => grade.grade)
+          .reduce((a, b) => a + b) / grades.length;
+    }
+
+    return `${user.name} has a ${average}% in the class.`;
+};
+
+getStatusAlt(2).then(name => {
+    console.log(name);
+}).catch(err => {
     console.log(err);
-  });
+});
+
+// console.log(getStatusAlt());
+
+// getStatus(1)
+//   .then(status => {
+//     console.log(status);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
