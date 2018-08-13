@@ -2,7 +2,7 @@ const axios = require('axios');
 
 // const getExchangeRate = (from, to) => {
 //     return axios
-//         .get("http://data.fixer.io/api/latest?access_key=api_key")
+//         .get("http://data.fixer.io/api/latest?access_key=5c4f7f706a0a651a0836c5efbda1c2b4")
 //         .then(response => {
 //             const euro = 1 / response.data.rates[from];
 //             const rate = euro * response.data.rates[to];
@@ -12,7 +12,7 @@ const axios = require('axios');
 
 const getExchangeRate = async (from, to) => {
     try {
-        const response = await axios.get("http://data.fixer.io/api/latest?access_key=api_key");
+        const response = await axios.get("http://data.fixer.io/api/latest?access_key=5c4f7f706a0a651a0836c5efbda1c2b4");
         const euro = 1 / response.data.rates[from];
         const rate = euro * response.data.rates[to];
         

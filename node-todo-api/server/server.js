@@ -45,7 +45,7 @@ app.get("/todos", (req, res) => {
     );
 });
 
-// GET /todos/id
+// GET /todos/:id (url parameter)
 app.get("/todos/:id", (req, res) => {
     const id = req.params.id;
 
@@ -66,7 +66,7 @@ app.get("/todos/:id", (req, res) => {
         });
 });
 
-// Delete
+// Delete /todos/id
 app.delete('/todos/:id', (req, res) => {
     // get the id
     const id = req.params.id;
@@ -91,7 +91,7 @@ app.delete('/todos/:id', (req, res) => {
         .catch(err => res.send(400).send());
 })
 
-// Update /todos
+// Update /todos/id
 app.patch('/todos/:id', (req, res) => {
     const id = req.params.id;
     // pick takes an object and an array of the properties you want
@@ -108,6 +108,7 @@ app.patch('/todos/:id', (req, res) => {
         body.completedAt = null;
     }
 
+    // $set is mongoDB operator | new: true is similar to returnOriginal in mongoDB
     Todo.findByIdAndUpdate(id, { $set: body }, { new: true }).then(todo => {
         if (!todo) {
             return res.status(400).send();

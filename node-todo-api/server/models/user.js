@@ -1,7 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const validator = require("validator");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const _ = require("lodash"); 
+
+/*
+    {
+    email: 'andrew@example.com',
+    password: 'abcMypass', 
+        // not gonna store plain text since it's not secure, 
+        // we're gonna hashing this password and using the secret
+        // we take this value and covert it into a long string and store in the database
+    tokens: [{
+        access: 'auth',
+        token: 'asdkfjapsdjfsdjlfkjasldkfjsldfjsdf'
+        // when a user wants to make a secure request, 
+        // user is going to send this along with their HTTP  request and 
+        // we'll be able to validate that the user have access to do what they want (adding, deleting..) 
+    }]
+    }
+*/
 
 const UserSchema = new mongoose.Schema({
     email: {

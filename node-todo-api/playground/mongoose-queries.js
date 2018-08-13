@@ -19,6 +19,7 @@ const userId = "5b6bd2df93f3fe1e5ea9c00c";
 //     console.log("Todos", todos);
 // });
 
+// when you want to find something with other than id
 // Todo.findOne({
 //     _id: id
 //     // mongoose automatically converts id to ObjectID

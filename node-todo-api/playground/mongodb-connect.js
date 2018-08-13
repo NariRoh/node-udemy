@@ -5,7 +5,7 @@ const { MongoClient, ObjectID } = require("mongodb");
     mongo/bin >> ./mongod --dbpath ~/mongo-data
 
   * To connect DB server
-    mongo/bin >> ./mongo
+    mongo/bin >> mongo
 
   [ - collections
     { - document
