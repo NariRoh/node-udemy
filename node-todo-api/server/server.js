@@ -146,7 +146,7 @@ app.get('/users/me', authenticate, (req, res) => {
     //     res.send(user);
     // }).catch(err => {
     //     res.status(401).send();
-    // }); 
+    // }); in middleware/authenticate.js
 });
 
 app.listen(port, () => {

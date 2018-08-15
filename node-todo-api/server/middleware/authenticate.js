@@ -8,6 +8,7 @@ const authenticate = (req, res, next) => {
         if (!user) {
           return Promise.reject();
         }
+        // To send modified request object to GET /users/me 
         req.user = user;
         req.token = token;
         next();

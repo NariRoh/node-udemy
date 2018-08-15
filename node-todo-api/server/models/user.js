@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const _ = require("lodash"); 
+const bcrypt = require('bcryptjs');
 
 /*
     {
@@ -50,7 +51,7 @@ const UserSchema = new mongoose.Schema({
     }]
 });
 
-// model methods start with capped letter, instance methods are opposite 
+// 'method' adds an instance method to documents constructed from Models
 // UserSchema.methods: is an object and we can add any method you want
 // To not send back token to user
 UserSchema.methods.toJSON = function() {
@@ -74,6 +75,7 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+// 'static' adds static "class" methods to the Models itself
 UserSchema.statics.findByToken = function (token) {
     const User = this;
     let decoded;
@@ -86,13 +88,38 @@ UserSchema.statics.findByToken = function (token) {
         // });
         return Promise.reject();
     }
+    // decoded = { 
+    //     _id: '5b7398ee910a642b8f8360ec',
+    //     access: 'auth',
+    //     iat: 1534302446 
+    // }
 
+    //  Using the _id makes it faster because ids are indexed by MongoDB and 
+    // you need to check for the token because it might not exist in the tokens array anymore 
+    // (i.e. the user logged out and destroyed the token).
     return User.findOne({
-       '_id': decoded._id,
+       _id: decoded._id,
        'tokens.token': token,
        'tokens.access': 'auth' 
+    // 👆 quotes are required when we have a dot in the value
     });
 };
+
+// this will run before the given event
+UserSchema.pre('save', function (next) {
+    const user = this;
+
+    if (user.isModified('password')) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                user.password = hash;
+                next();
+            })
+        })
+    } else {
+        next();
+    }
+});
 
 const User = mongoose.model('User', UserSchema);
 /* 👆
