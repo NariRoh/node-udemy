@@ -125,6 +125,8 @@ app.post('/users', (req, res) => {
     user.save().then(() => {
             return user.generateAuthToken();
         }).then(token => {
+            // header takes key and value
+            // when you prefix a header with 'x-' you're creating a custom header 
             res.header('x-auth', token).send(user);
         }).catch(err => {
             res.status(400).send(err)

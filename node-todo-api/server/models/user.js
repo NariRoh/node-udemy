@@ -20,6 +20,7 @@ const _ = require("lodash");
     }
 */
 
+// 👇 The schema property lets you define a new schema we need this to track on custom methods
 const UserSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -49,6 +50,8 @@ const UserSchema = new mongoose.Schema({
     }]
 });
 
+// model methods start with capped letter, instance methods are opposite 
+// UserSchema.methods: is an object and we can add any method you want
 // To not send back token to user
 UserSchema.methods.toJSON = function() {
     const user = this;
@@ -60,9 +63,11 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
     const user = this;
     const access = 'auth';
-    const token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+    // const token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+    const token = jwt.sign({ _id: user._id, access }, "abc123").toString();
 
     user.tokens.push({ access, token });
+    // user.tokens = user.tokens.concat([{ access, token }]);
     
     return user.save().then(() => {
         return token
@@ -90,5 +95,12 @@ UserSchema.statics.findByToken = function (token) {
 };
 
 const User = mongoose.model('User', UserSchema);
+/* 👆
+    const User = mongoose.model("User", {
+        email: {
+            ...
+        }
+    });
+*/
 
 module.exports = { User }; 
