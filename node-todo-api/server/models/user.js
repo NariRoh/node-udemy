@@ -75,6 +75,16 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+UserSchema.methods.removeToken = function (token) {
+    // 👇 lets you remove items from an array that match certain criteria
+    const user = this;
+    return user.update({
+        $pull: {
+            tokens: { token }
+        }
+    })
+}
+
 // 'static' adds static "class" methods to the Models itself
 UserSchema.statics.findByToken = function (token) {
     const User = this;
